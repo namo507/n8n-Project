@@ -1,54 +1,37 @@
-# Weather Guardian – n8n Daily Weather Automation
+# Weather Guardian - n8n Daily Weather Automation
 
 ![n8n](https://img.shields.io/badge/n8n-Workflow%20Automation-brightgreen)
 ![OpenWeatherMap](https://img.shields.io/badge/OpenWeatherMap-API-orange)
 ![Supabase](https://img.shields.io/badge/Supabase-Database-green)
 
-## 📋 Project Overview
+## Project Overview
 
-An intelligent daily weather automation system built with **⚡n8n⚡** that fetches weather data, analyzes conditions, detects weather alerts, stores data in Supabase, and sends beautiful HTML email reports.
+An intelligent daily weather automation system built with n8n that fetches weather data, analyzes conditions, detects weather alerts, stores data in Supabase, and sends beautiful HTML email reports.
 
 ### Built for ServiceAgent Take-Home Assessment
 
-## ✨ Features
+## Features
 
-- ✅ **Daily Automated Weather Checks** – Runs every day at 8:00 AM
-- ✅ **Intelligent Alert Detection** – Detects precipitation, heat, and frost conditions
-- ✅ **Beautiful HTML Email Reports** – Emoji-rich weather summaries
-- ✅ **Database Logging** – Stores all weather data in Supabase PostgreSQL
-- ✅ **Comprehensive Metrics** – Temperature, humidity, wind speed, conditions
-- ✅ **Creative Formatting** – Professional weather summaries with contextual tips
+- **Daily Automated Weather Checks** - Runs every day at 8:00 AM
+- **Intelligent Alert Detection** - Detects precipitation, heat, and frost conditions
+- **Beautiful HTML Email Reports** - Emoji-rich weather summaries
+- **Database Logging** - Stores all weather data in Supabase PostgreSQL
+- **Comprehensive Metrics** - Temperature, humidity, wind speed, conditions
+- **Creative Formatting** - Professional weather summaries with contextual tips
 
-## 🔧 Workflow Architecture
+## Workflow Architecture
 
-```
-┌─────────────┐
-│  Schedule   │
-│   Trigger   │ → Daily at 8:00 AM
-└──────┬──────┘
-       ↓
-┌─────────────┐
-│   Weather   │
-│  API Call   │ → Fetch OpenWeatherMap data
-└──────┬──────┘
-       ↓
-┌─────────────┐
-│  Weather    │
-│   Logic     │ → Analyze & detect alerts
-└──────┬──────┘
-       ↓
-┌─────────────┐
-│  Supabase   │
-│   Insert    │ → Store in weather_logs
-└──────┬──────┘
-       ↓
-┌─────────────┐
-│    Email    │
-│   Sender    │ → HTML report to user
-└─────────────┘
-```
+![Workflow Diagram](workflow-screenshot.png)
 
-## 🚀 Setup Instructions
+The workflow consists of 5 nodes:
+
+1. **Schedule Trigger** - Daily execution at 8:00 AM
+2. **Weather API Call** - Fetch OpenWeatherMap data
+3. **Weather Logic** - Analyze and detect alerts
+4. **Supabase Insert** - Store in weather_logs table
+5. **Email Sender** - Send HTML report to user
+
+## Setup Instructions
 
 ### Prerequisites
 - n8n account ([app.n8n.cloud](https://app.n8n.cloud) or self-hosted)
@@ -61,7 +44,7 @@ An intelligent daily weather automation system built with **⚡n8n⚡** that fet
 1. Sign up at [openweathermap.org](https://openweathermap.org/api)
 2. Navigate to **API Keys** section
 3. Generate a new API key (activation takes 1-2 hours)
-4. Copy your API key: `YOUR_API_KEY_HERE`
+4. Copy your API key
 
 **API Endpoint Used:**
 ```
@@ -89,7 +72,7 @@ CREATE TABLE weather_logs (
 );
 ```
 
-4. Get your **Project URL** and **Anon Key** from Settings → API
+4. Get your **Project URL** and **Anon Key** from Settings -> API
 
 ### 3. Email Configuration
 
@@ -101,14 +84,14 @@ Configure email credentials in n8n:
 ### 4. Import Workflow to n8n
 
 1. Download `weather-guardian-workflow.json`
-2. In n8n, go to **Workflows** → **Import from File**
+2. In n8n, go to **Workflows** -> **Import from File**
 3. Upload the JSON file
 4. Configure credentials:
    - **OpenWeatherMap HTTP Request:** Add API key to URL parameter
    - **Supabase HTTP Request:** Add Project URL + Anon Key as headers
    - **Email Node:** Configure your email service
 
-### 5. Test & Activate
+### 5. Test and Activate
 
 1. Click **Execute Workflow** to test manually
 2. Verify:
@@ -118,7 +101,7 @@ Configure email credentials in n8n:
    - Email arrives with correct formatting
 3. Toggle **Active** to enable daily 8:00 AM runs
 
-## 📊 Database Schema
+## Database Schema
 
 | Column | Type | Description |
 |--------|------|-------------|
@@ -133,7 +116,7 @@ Configure email credentials in n8n:
 | `alert_type` | TEXT | "precipitation", "heat", "frost", or "none" |
 | `raw_response` | JSONB | Full API response |
 
-## 🎯 Alert Detection Logic
+## Alert Detection Logic
 
 ```javascript
 if (condition.match(/rain|snow|drizzle|storm|thunder/i)) {
@@ -147,27 +130,27 @@ if (condition.match(/rain|snow|drizzle|storm|thunder/i)) {
 }
 ```
 
-## 📧 Email Format
+## Email Format
 
-**Subject:** `Daily Weather for London – January 15, 2025`
+**Subject:** `Daily Weather for London - January 15, 2025`
 
 **Body:**
 ```
-🌤️ Good morning!
+Good morning!
 
 Here's your weather summary for London:
 
-🌡️ Temperature: 18°C (64°F)
-☁️ Condition: Partly Cloudy
-💧 Humidity: 65%
-🌬️ Wind Speed: 3.5 m/s
+Temperature: 18°C (64°F)
+Condition: Partly Cloudy
+Humidity: 65%
+Wind Speed: 3.5 m/s
 
-⚠️ ALERT: None – Perfect day ahead!
+ALERT: None - Perfect day ahead!
 
-💡 Tip: Great weather for outdoor activities!
+Tip: Great weather for outdoor activities!
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Issue: "Invalid API Key" Error
 **Solution:** Wait 1-2 hours after OpenWeatherMap key generation for activation.
@@ -190,16 +173,16 @@ Here's your weather summary for London:
 - Check n8n timezone settings
 - Verify cron expression: `0 8 * * *`
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 n8n-Project/
-├── README.md                      # This file
-├── weather-guardian-workflow.json # Exportable n8n workflow
-└── workflow-screenshot.png        # Visual workflow diagram
+├── README.md                             # This file
+├── weather-guardian-workflow.json         # Exportable n8n workflow
+└── workflow-screenshot.png                # Visual workflow diagram
 ```
 
-## 🎨 Unique Features
+## Unique Features
 
 - **Contextual Tips:** Weather-based activity suggestions
 - **Emoji-Rich Reports:** Beautiful visual email formatting
@@ -207,46 +190,27 @@ n8n-Project/
 - **Alert Categorization:** Smart weather condition detection
 - **Production-Ready:** Error handling + comprehensive logging
 
-## 📝 Assessment Deliverables
+## Assessment Deliverables
 
-- ✅ **Exported n8n workflow** (`weather-guardian-workflow.json`)
-- ✅ **Comprehensive README** (this file)
-- ✅ **Workflow screenshot** (`workflow-screenshot.png`)
-- ✅ **API configuration documentation**
-- ✅ **Database schema** + setup instructions
-- ✅ **Setup instructions** + troubleshooting
+- Exported n8n workflow (`weather-guardian-workflow.json`)
+- Comprehensive README (this file)
+- Workflow screenshot (`workflow-screenshot.png`)
+- API configuration documentation
+- Database schema + setup instructions
+- Setup instructions + troubleshooting
 
-## 🧪 Testing Checklist
-
-- [ ] Slack notifications
-- [ ] Custom alert thresholds
-- [ ] Weather data visualization
-
-## 📚 Contributing
-
-This is a take-home assessment project. Suggestions and feedback are welcome!
-
-## 📄 Assessment Deliverables
-
-- **Exported n8n workflow** (`weather-guardian-workflow.json`)
-- **Comprehensive README** (this file)
-- **Workflow screenshot** (`workflow-screenshot.png`)
-- **API configuration documentation**
-- **Database schema** + setup instructions
-- **Setup instructions** + troubleshooting
-
-## 📞 Contact
+## Contact
 
 - **Email:** namit507@terpmail.umd.edu
 - **GitHub:** [@namo507](https://github.com/namo507)
 - **n8n Instance:** https://namit507.app.n8n.cloud
 
-## 📜 License
+## License
 
 This project is created for educational and assessment purposes.
 
 ---
 
-**Built with ❤️ for ServiceAgent using n8n, OpenWeatherMap, and Supabase**
+**Built with care for ServiceAgent using n8n, OpenWeatherMap, and Supabase**
 
 *Last Updated: December 17, 2025*
