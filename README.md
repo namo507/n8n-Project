@@ -21,8 +21,42 @@ An intelligent daily weather automation system built with n8n that fetches weath
 
 ## Workflow Architecture
 
-![Workflow Diagram](workflow-screenshot.png)
 
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   WEATHER GUARDIAN WORKFLOW                     │
+└─────────────────────────────────────────────────────────────┘
+
+          ┌─────────────────────────┐
+          │   [1] SCHEDULE TRIGGER  │
+          │    ⏰ Daily at 8:00 AM    │
+          └───────────┬─────────────┘
+                   │
+                   ↓
+          ┌───────────┴─────────────┐
+          │  [2] WEATHER API CALL  │
+          │  ☁️ Fetch OpenWeatherMap │
+          └───────────┬─────────────┘
+                   │
+                   ↓
+          ┌───────────┴─────────────┐
+          │   [3] WEATHER LOGIC    │
+          │  🧠 Analyze & Alerts    │
+          └───────────┬─────────────┘
+                   │
+                   ↓
+          ┌───────────┴─────────────┐
+          │  [4] SUPABASE INSERT   │
+          │  💾 Store weather_logs  │
+          └───────────┬─────────────┘
+                   │
+                   ↓
+          ┌───────────┴─────────────┐
+          │    [5] EMAIL SENDER     │
+          │   📧 HTML Report Send   │
+          └─────────────────────────┘
+```
 The workflow consists of 5 nodes:
 
 1. **Schedule Trigger** - Daily execution at 8:00 AM
